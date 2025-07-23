@@ -1,0 +1,35 @@
+<line-item class="line-item">
+  <div class="line-item__content-wrapper">
+    {% if item.image %}
+      <div class="line-item__image-wrapper">
+        {% render 'responsive-image-dynamic_v2', image: item.image, alt: item.image.alt %}
+      </div>
+    {% endif %}
+
+    <div class="line-item__info">
+      <div class="line-item__title-wrapper">
+        <h2 class="line-item__title">{{ item.title }}</h2>
+        <button class="line-item__remove-button" type="button">
+          {% render 'icons', icon: 'icon-trash' %}
+        </button>
+      </div>
+      <div class="line-item__details">
+        <div class="line-item__left">
+          {%- unless item.product.has_only_default_variant %}
+            <ul class="line-item__options">
+              {% for option in item.options_with_values -%}
+                <li class="line-item__option">{{ option.name }}: {{ option.value }}</li>
+              {%- endfor %}
+            </ul>
+          {% endunless %}
+          <div class="line-item__price-wrapper">
+            <div class="line-item__price">{{ item.price | money }}</div>
+          </div>
+        </div>
+        <div class="line-item__right">
+          {% render 'cart-line-item-quantity', item: item %}
+        </div>
+      </div>
+    </div>
+  </div>
+</line-item>

@@ -1,0 +1,44 @@
+{{ 'cart-section.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart-section.js' | asset_url }}" defer></script>
+
+<cart-section>
+  <div class="cart-section__container">
+
+    <div class="cart-section__header">
+      <h1 class="cart-section__title">{{ 'custom.cart.title' | t }}</h1>
+    </div>
+
+    <div class="cart-section__content-wrapper">
+      {% unless cart.empty? %}
+        <div class="cart-section__content">
+          <div class="cart-section__line-items">
+            {% for item in cart.items %}
+              {% render 'cart-line-item', item: item %}
+            {% endfor %}
+          </div>
+
+          <div class="cart-section__summary">
+            summary
+          </div>
+        </div>
+      {% else %}
+        <div class="cart-section__empty">cart is empty</div>
+      {% endunless %}
+    </div>
+  </div>
+</cart-section>
+
+{% schema %}
+{
+  "name": "Cart Section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Cart Section"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["cart"]
+  }
+}
+{% endschema %}

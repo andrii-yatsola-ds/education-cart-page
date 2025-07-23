@@ -1,0 +1,225 @@
+.cart-section{
+  display: block;
+}
+
+.cart-section__container{
+  max-width: 1240px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.cart-section__title{
+  color: #000;
+  font-size: 35px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 127%;
+}
+
+.cart-section__content-wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart-section__line-items{
+  width: 100%;
+  height: fit-content;
+  max-width: 715px;
+
+  padding: 20px 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+}
+
+.cart-section__line-item-divider{
+  display: block;
+  margin: 24px 0;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.10);
+  width: 100%;
+}
+
+.cart-section__summary{
+  flex-shrink: 0;
+  padding: 20px 24px 50px;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.10);
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+}
+
+.cart-section__summary-title{
+  margin: 0;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.cart-section__summary-content{
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+}
+
+.cart-section__summary-divider{
+  display: block;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.10);
+  width: 100%;
+}
+
+.cart-section__summary-row{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-section__summary-item-label{
+  color: rgba(0, 0, 0, 0.60);
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.cart-section__summary-item-label--total{
+  color: #000;
+}
+
+.cart-section__summary-item-value{
+  color: #000;
+  text-align: right;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.cart-section__summary-item-value--total{
+  font-size: 24px;
+}
+
+.cart-section__promo-code{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-section__promo-code-input-wrapper{
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  column-gap: 12px;
+  padding: 12px 16px;
+  border-radius: 62px;
+  background: #F0F0F0;
+}
+
+.cart-section__promo-code-icon{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cart-section__promo-code-input{
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  padding: 0;
+
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.cart-section__promo-code-input::placeholder{
+  color: rgba(0, 0, 0, 0.40);
+}
+
+.cart-section__promo-code-input:focus-visible,
+.cart-section__promo-code-input:focus-within,
+.cart-section__promo-code-input:focus{
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.cart-section__promo-code-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  max-width: 120px;
+  flex-shrink: 0;
+
+  border-radius: 10px;
+  background: #3373B0;
+  padding: 12px 16px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+
+  color: #FFF;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+  transition: background-color 0.25s;
+}
+
+.cart-section__promo-code-button:hover{
+  background: #235280;
+}
+
+.cart-section__shipping-message{
+  color: rgba(0, 0, 0, 0.60);
+  text-align: center;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.cart-section__checkout-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 12px;
+  width: 100%;
+
+  border-radius: 10px;
+  background-color: #3373B0;
+  padding: 19px;
+
+  color: #FFF;
+  text-align: center;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-decoration: none;
+
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+.cart-section__checkout-button:hover{
+  background-color: #235280;
+}
+
+@media (min-width: 768px) {
+  .cart-section__content-wrapper{
+    flex-direction: row;
+  }
+}

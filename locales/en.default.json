@@ -537,7 +537,17 @@
   },
   "custom": {
     "cart": {
-      "title": "Your Cart"
+      "title": "Your Cart",
+      "summary": {
+        "title": "Order Summary",
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "total": "Total",
+        "promo_placeholder": "Add promo code",
+        "promo_button": "Apply",
+        "shipping_message": "Taxes & Shipping calculated at checkout",
+        "checkout": "Go to Checkout"
+      }
     }
   }
 }

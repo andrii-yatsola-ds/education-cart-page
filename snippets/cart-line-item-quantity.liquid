@@ -1,11 +1,11 @@
 <quantity-selector class="quantity-selector">
-  <div class="new-product__quantity-selector d-flex align-items-center">
-    <button type="button" class="new-product__quantity-btn js-quantity-btn-minus">
-        {%- render 'icons', icon: 'icon-minus' -%}
+  <div class="quantity-selector__wrapper">
+    <button type="button" class="quantity-selector__btn js-quantity-btn-minus">
+        {%- render 'icons', icon: 'icon-minus', size: '20' -%}
     </button>
-    <input type="number" name="quantity" value="1" min="1" max="100" class="new-product__quantity-input js-quantity-input"/>
-    <button type="button" class="new-product__quantity-btn js-quantity-btn-plus">
-        {%- render 'icons', icon: 'icon-plus' -%}
+    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="100" class="quantity-selector__input js-quantity-input"/>
+    <button type="button" class="quantity-selector__btn js-quantity-btn-plus">
+        {%- render 'icons', icon: 'icon-plus', size: '20' -%}
     </button>
   </div>
 </quantity-selector>

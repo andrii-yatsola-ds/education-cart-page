@@ -1,33 +1,33 @@
 <line-item class="line-item">
   <div class="line-item__content-wrapper">
-    {% if item.image %}
-      <a href="{{ item.url }}" class="line-item__image-wrapper">
-        {% render 'responsive-image-dynamic_v2', image: item.image, alt: item.image.alt %}
+    {% if line_item.image %}
+      <a href="{{ line_item.url }}" class="line-item__image-wrapper">
+        {% render 'responsive-image-dynamic_v2', image: line_item.image, alt: line_item.image.alt %}
       </a>
     {% endif %}
 
     <div class="line-item__info">
       <div class="line-item__title-wrapper">
         <h2 class="line-item__title">
-          <a href="{{ item.url }}">{{ item.title }}</a>
+          <a href="{{ line_item.url }}">{{ line_item.title }}</a>
         </h2>
-        <button class="line-item__remove-button" type="button">
+        <a class="line-item__remove-button" href="{{ line_item.url_to_remove }}" data-ajax-cart-request-button>
           {% render 'icons', icon: 'icon-trash' %}
-        </button>
+        </a>
       </div>
       <div class="line-item__details">
         <div class="line-item__left">
-          {%- unless item.product.has_only_default_variant %}
+          {%- unless line_item.product.has_only_default_variant %}
             <ul class="line-item__options">
-              {% for option in item.options_with_values -%}
+              {% for option in line_item.options_with_values -%}
                 <li class="line-item__option"><span>{{ option.name }}:</span> {{ option.value }}</li>
               {%- endfor %}
             </ul>
           {% endunless %}
-          <div class="line-item__price">{{ item.price | money }}</div>
+          <div class="line-item__price">{{ line_item.price | money }}</div>
         </div>
         <div class="line-item__right">
-          {% render 'cart-line-item-quantity', item: item %}
+          {% render 'cart-line-item-quantity', line_item: line_item, index: index %}
         </div>
       </div>
     </div>

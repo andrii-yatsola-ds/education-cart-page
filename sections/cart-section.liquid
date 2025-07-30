@@ -23,13 +23,14 @@
 
     <h1 class="cart-section__title">{{ 'custom.cart.title' | t }}</h1>
 
-    <div class="cart-section__content-wrapper">
+    <div class="cart-section__content-wrapper-outer" data-ajax-cart-section>
       {% unless cart.empty? %}
-        <div class="cart-section__content-wrapper">
+        <form action="{{ routes.cart_url }}" method="post" class="cart-section__content-wrapper-inner">
           <div class="cart-section__line-items">
             {% for item in cart.items %}
+              {% assign line_item_index = forloop.index %}
               <div class="cart-section__line-item">
-                {% render 'cart-line-item', item: item %}
+                {% render 'cart-line-item', line_item: item, index: line_item_index %}
               </div>
 
               {% unless forloop.last %}
@@ -91,12 +92,12 @@
               {{ 'custom.cart.summary.shipping_message' | t }}
             </div>
 
-            <a href="{{ routes.checkout_url }}" class="cart-section__checkout-button">
+            <button type="submit" name="checkout" class="cart-section__checkout-button">
               {{ 'custom.cart.summary.checkout' | t }}
               {% render 'icons', icon: 'icon-arrow-right' %}
-            </a>
+            </button>
           </div>
-        </div>
+        </form>
       {% else %}
         <div class="cart-section__empty">cart is empty</div>
       {% endunless %}

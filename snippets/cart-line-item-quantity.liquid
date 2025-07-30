@@ -1,11 +1,11 @@
-<quantity-selector class="quantity-selector">
+<ajax-cart-quantity class="quantity-selector">
   <div class="quantity-selector__wrapper">
-    <button type="button" class="quantity-selector__btn js-quantity-btn-minus">
+    <a href="{{ routes.cart_change_url }}?line={{ index }}&quantity={{ line_item.quantity | minus: 1 }}" class="quantity-selector__btn" data-ajax-cart-quantity-minus>
         {%- render 'icons', icon: 'icon-minus', size: '20' -%}
-    </button>
-    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="100" class="quantity-selector__input js-quantity-input"/>
-    <button type="button" class="quantity-selector__btn js-quantity-btn-plus">
+    </a>
+    <input type="number" name="quantity" value="{{ line_item.quantity }}" min="1" max="100" class="quantity-selector__input" data-ajax-cart-quantity-input="{{ index }}"/>
+    <a href="{{ routes.cart_change_url }}?line={{ index }}&quantity={{ line_item.quantity | plus: 1 }}" class="quantity-selector__btn" data-ajax-cart-quantity-plus>
         {%- render 'icons', icon: 'icon-plus', size: '20' -%}
-    </button>
+    </a>
   </div>
-</quantity-selector>
+</ajax-cart-quantity>

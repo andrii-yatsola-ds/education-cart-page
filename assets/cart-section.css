@@ -16,7 +16,16 @@
   line-height: 127%;
 }
 
-.cart-section__content-wrapper{
+.cart-section__content-wrapper-outer{
+  transition: all 0.25s;
+}
+
+html.js-ajax-cart-processing .cart-section__content-wrapper-outer{
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.cart-section__content-wrapper-inner{
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -210,6 +219,7 @@
   line-height: normal;
   text-decoration: none;
 
+  border: none;
   cursor: pointer;
   transition: background-color 0.25s;
 }
@@ -219,7 +229,7 @@
 }
 
 @media (min-width: 768px) {
-  .cart-section__content-wrapper{
+  .cart-section__content-wrapper-inner{
     flex-direction: row;
   }
 }

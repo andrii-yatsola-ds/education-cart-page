@@ -127,6 +127,37 @@ html.js-ajax-cart-processing .cart-section__content-wrapper-outer{
   padding: 12px 16px;
   border-radius: 62px;
   background: #F0F0F0;
+  border: 1px solid transparent;
+}
+
+.cart-section__promo-code-input-wrapper.error{
+  border: 1px solid #FF3333;
+}
+
+.cart-section__promo-code-list{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cart-section__promo-code-item{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 62px;
+  background: #F0F0F0;
+  border: 1px solid transparent;
+}
+
+.cart-section__promo-code-remove{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  color: #FF3333;
+  cursor: pointer;
 }
 
 .cart-section__promo-code-icon{
@@ -189,6 +220,11 @@ html.js-ajax-cart-processing .cart-section__content-wrapper-outer{
 
 .cart-section__promo-code-button:hover{
   background: #235280;
+}
+
+.cart-section__promo-code-button:disabled{
+  background: #ccc;
+  cursor: not-allowed;
 }
 
 .cart-section__shipping-message{

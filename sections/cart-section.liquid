@@ -18,14 +18,18 @@
   }
 {% endstyle %}
 
-<cart-section class="cart-section">
+{% liquid
+  assign discount_codes = cart.discount_applications | map: 'title' | join: ','
+%}
+
+<cart-section class="cart-section" data-section-id="{{ section.id }}">
   <div class="cart-section__container">
 
     <h1 class="cart-section__title">{{ 'custom.cart.title' | t }}</h1>
 
-    <div class="cart-section__content-wrapper-outer" data-ajax-cart-section>
+    <div class="cart-section__content-wrapper-outer js-content-wrapper" data-ajax-cart-section>
       {% unless cart.empty? %}
-        <form action="{{ routes.cart_url }}" method="post" class="cart-section__content-wrapper-inner">
+        <form action="{{ routes.cart_url }}" method="post" class="cart-section__content-wrapper-inner js-cart-form" data-discount-codes="{{ discount_codes }}">
           <div class="cart-section__line-items">
             {% for item in cart.items %}
               {% assign line_item_index = forloop.index %}
@@ -78,14 +82,27 @@
             </div>
 
             <div class="cart-section__promo-code">
-              <div class="cart-section__promo-code-input-wrapper">
+              <div class="cart-section__promo-code-input-wrapper js-promo-code-input-wrapper">
                 <span class="cart-section__promo-code-icon">
                   {% render 'icons', icon: 'icon-promo-code' %}
                 </span>
-                <input type="text" class="cart-section__promo-code-input" placeholder="{{ 'custom.cart.summary.promo_placeholder' | t }}">
+                <input type="text" class="cart-section__promo-code-input js-promo-code-input" placeholder="{{ 'custom.cart.summary.promo_placeholder' | t }}">
               </div>
 
-              <button type="button" class="cart-section__promo-code-button">{{ 'custom.cart.summary.promo_button' | t }}</button>
+              <button type="button" class="cart-section__promo-code-button js-promo-code-apply">{{ 'custom.cart.summary.promo_button' | t }}</button>
+            </div>
+
+            <div class="cart-section__promo-code-error js-promo-code-error"></div>
+
+            <div class="cart-section__promo-code-list">
+              {% for discount in cart.discount_applications %}
+                <div class="cart-section__promo-code-item">
+                  {{ discount.title }}
+                  <span class="cart-section__promo-code-remove js-promo-code-remove" data-promo-code="{{ discount.title }}">
+                    {% render 'icons', icon: 'icon-trash' %}
+                  </span>
+                </div>
+              {% endfor %}
             </div>
 
             <div class="cart-section__shipping-message">

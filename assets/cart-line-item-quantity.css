@@ -24,7 +24,7 @@
   justify-content: center;
 }
 
-.quantity-selector__btn:disabled{
+.quantity-selector__btn[aria-disabled="true"]{
   opacity: 0.5;
   pointer-events: none;
 }

@@ -44,7 +44,14 @@
     "cart_section_knhFQM": {
       "type": "cart-section",
       "name": "Cart Section",
-      "settings": {}
+      "settings": {
+        "margin_top": 46,
+        "margin_bottom": 56,
+        "margin_top_mobile": 18,
+        "margin_bottom_mobile": 64,
+        "show_promo_code": true,
+        "debug_mode": true
+      }
     }
   },
   "order": [

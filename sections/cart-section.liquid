@@ -1,8 +1,9 @@
 {{ 'cart-section.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'cart-section.js' | asset_url }}" defer></script>
-
 {{ 'cart-line-item.css' | asset_url | stylesheet_tag }}
 {{ 'cart-line-item-quantity.css' | asset_url | stylesheet_tag }}  
+{{ 'cart-promo-code.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'cart-section.js' | asset_url }}" defer></script>
+<script src="{{ 'cart-promo-code.js' | asset_url }}" defer></script>
 
 {% style %}
   #shopify-section-{{ section.id }} .cart-section {
@@ -29,7 +30,7 @@
 
     <div class="cart-section__content-wrapper-outer js-content-wrapper" data-ajax-cart-section>
       {% unless cart.empty? %}
-        <form action="{{ routes.cart_url }}" method="post" class="cart-section__content-wrapper-inner js-cart-form" data-discount-codes="{{ discount_codes }}">
+        {% form 'cart', cart, class: 'cart-section__content-wrapper-inner js-cart-form', data-discount-codes: discount_codes %}
           <div class="cart-section__line-items">
             {% for item in cart.items %}
               {% assign line_item_index = forloop.index %}
@@ -81,29 +82,9 @@
               </div>
             </div>
 
-            <div class="cart-section__promo-code">
-              <div class="cart-section__promo-code-input-wrapper js-promo-code-input-wrapper">
-                <span class="cart-section__promo-code-icon">
-                  {% render 'icons', icon: 'icon-promo-code' %}
-                </span>
-                <input type="text" class="cart-section__promo-code-input js-promo-code-input" placeholder="{{ 'custom.cart.summary.promo_placeholder' | t }}">
-              </div>
-
-              <button type="button" class="cart-section__promo-code-button js-promo-code-apply">{{ 'custom.cart.summary.promo_button' | t }}</button>
-            </div>
-
-            <div class="cart-section__promo-code-error js-promo-code-error"></div>
-
-            <div class="cart-section__promo-code-list">
-              {% for discount in cart.discount_applications %}
-                <div class="cart-section__promo-code-item">
-                  {{ discount.title }}
-                  <span class="cart-section__promo-code-remove js-promo-code-remove" data-promo-code="{{ discount.title }}">
-                    {% render 'icons', icon: 'icon-trash' %}
-                  </span>
-                </div>
-              {% endfor %}
-            </div>
+            {% if section.settings.show_promo_code %}
+              {% render 'cart-promo-code' %}
+            {% endif %}
 
             <div class="cart-section__shipping-message">
               {{ 'custom.cart.summary.shipping_message' | t }}
@@ -114,7 +95,7 @@
               {% render 'icons', icon: 'icon-arrow-right' %}
             </button>
           </div>
-        </form>
+        {% endform %}
       {% else %}
         <div class="cart-section__empty">cart is empty</div>
       {% endunless %}
@@ -169,6 +150,12 @@
       "unit": "px",
       "label": "(Mobile) Margin bottom",
       "default": 64
+    },
+    {
+      "type": "checkbox",
+      "id": "show_promo_code",
+      "label": "Show promo code",
+      "default": true
     }
   ],
   "presets": [

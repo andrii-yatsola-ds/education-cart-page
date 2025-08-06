@@ -1,0 +1,120 @@
+.cart-promo-code {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cart-promo-code__wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-promo-code__input-wrapper {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  column-gap: 12px;
+  padding: 12px 16px;
+  border-radius: 62px;
+  background: #F0F0F0;
+  border: 1px solid transparent;
+}
+
+.cart-promo-code__input-wrapper.error {
+  border: 1px solid #FF3333;
+}
+
+.cart-promo-code__icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cart-promo-code__input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  padding: 0;
+  color: #000;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.cart-promo-code__input::placeholder {
+  color: rgba(0, 0, 0, 0.40);
+}
+
+.cart-promo-code__input:focus-visible,
+.cart-promo-code__input:focus-within,
+.cart-promo-code__input:focus {
+  outline: none;
+  border: none;
+  box-shadow: none;
+}
+
+.cart-promo-code__button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 120px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #3373B0;
+  padding: 12px 16px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #FFF;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  transition: background-color 0.25s;
+}
+
+.cart-promo-code__button:hover {
+  background: #235280;
+}
+
+.cart-promo-code__button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.cart-promo-code__error {
+  color: #FF3333;
+  font-size: 14px;
+  font-weight: 500;
+  min-height: 20px;
+}
+
+.cart-promo-code__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.cart-promo-code__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 62px;
+  background: #F0F0F0;
+  border: 1px solid transparent;
+}
+
+.cart-promo-code__remove {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FF3333;
+  cursor: pointer;
+} 

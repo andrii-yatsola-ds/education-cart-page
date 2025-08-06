@@ -26,9 +26,9 @@
   - Ensure the `image` and `image_mobile` objects are correctly passed in to maximize the snippet's functionality.
 
   Example:
-  - {% render 'responsive-image-dynamic_v2', image: image, aria-label: 'gift-card-image', sizes: image_sizes, fetchpriority: fetchpriority %}
-  - {% render 'responsive-image-dynamic_v2', image: background_image, image_mobile: mobile_background_image %}
-  - {% render 'responsive-image-dynamic_v2', image: selected_variant.featured_image, fetchpriority: fetchpriority, loading: loading, sizes: image_sizes %}
+  - {% render 'responsive-image', image: image, aria-label: 'gift-card-image', sizes: image_sizes, fetchpriority: fetchpriority %}
+  - {% render 'responsive-image', image: background_image, image_mobile: mobile_background_image %}
+  - {% render 'responsive-image', image: selected_variant.featured_image, fetchpriority: fetchpriority, loading: loading, sizes: image_sizes %}
 {% endcomment %}
 
 {% liquid

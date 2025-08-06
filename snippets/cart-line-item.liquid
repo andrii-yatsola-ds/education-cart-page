@@ -2,7 +2,7 @@
   <div class="line-item__content-wrapper">
     {% if line_item.image %}
       <a href="{{ line_item.url }}" class="line-item__image-wrapper">
-        {% render 'responsive-image-dynamic_v2', image: line_item.image, alt: line_item.image.alt %}
+        {% render 'responsive-image', image: line_item.image, alt: line_item.image.alt %}
       </a>
     {% endif %}
 

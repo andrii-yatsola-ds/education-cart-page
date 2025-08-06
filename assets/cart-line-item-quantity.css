@@ -1,7 +1,6 @@
 .quantity-selector__wrapper{
   display: flex;
   align-items: center;
-
   border-radius: 62px;
   background-color: #F0F0F0;
   padding: 9px 8px;
@@ -16,9 +15,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
-
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -36,7 +33,6 @@
   outline: none;
   background-color: transparent;
   margin: 0 auto;
-
   color: #000;
   font-size: 14px;
   font-style: normal;

@@ -1,0 +1,26 @@
+
+<cart-promo-code class="cart-promo-code" data-section-id="{{ section.id }}" data-discount-codes="{{ cart.discount_applications | map: 'title' | join: ',' }}">
+  <div class="cart-promo-code__wrapper">
+    <div class="cart-promo-code__input-wrapper js-promo-code-input-wrapper">
+      <span class="cart-promo-code__icon">
+        {% render 'icons', icon: 'icon-promo-code' %}
+      </span>
+      <input type="text" class="cart-promo-code__input js-promo-code-input" placeholder="{{ 'custom.cart.summary.promo_placeholder' | t }}">
+    </div>
+  
+    <button type="button" class="cart-promo-code__button js-promo-code-apply">{{ 'custom.cart.summary.promo_button' | t }}</button>
+  </div>
+
+  <div class="cart-promo-code__error js-promo-code-error"></div>
+
+  <div class="cart-promo-code__list">
+    {% for discount in cart.discount_applications %}
+      <div class="cart-promo-code__item">
+        {{ discount.title }}
+        <span class="cart-promo-code__remove js-promo-code-remove" data-promo-code="{{ discount.title }}">
+          {% render 'icons', icon: 'icon-trash' %}
+        </span>
+      </div>
+    {% endfor %}
+  </div>
+</cart-promo-code> 

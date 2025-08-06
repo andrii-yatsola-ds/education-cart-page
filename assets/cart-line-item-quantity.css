@@ -28,7 +28,6 @@
 
 .quantity-selector__input{
   width: fit-content;
-  transform: translateY(2px);
   border: none;
   outline: none;
   background-color: transparent;

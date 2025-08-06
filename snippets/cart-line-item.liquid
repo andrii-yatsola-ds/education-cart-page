@@ -24,7 +24,7 @@
               {%- endfor %}
             </ul>
           {% endunless %}
-          <div class="line-item__price">{{ line_item.price | money }}</div>
+          <div class="line-item__price">{{ line_item.final_line_price | money }}</div>
         </div>
         <div class="line-item__right">
           {% render 'cart-line-item-quantity', line_item: line_item, index: index %}

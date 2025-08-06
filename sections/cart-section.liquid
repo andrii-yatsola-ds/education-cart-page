@@ -24,7 +24,7 @@
   assign discount_codes = cart.discount_applications | map: 'title' | join: ','
 %}
 
-<cart-section class="cart-section" data-section-id="{{ section.id }}">
+<cart-section class="cart-section" data-section-id="{{ section.id }}" data-debug-mode="{{ section.settings.debug_mode }}">
   <div class="cart-section__container">
 
     <h1 class="cart-section__title">{{ 'custom.cart.title' | t }}</h1>
@@ -84,7 +84,7 @@
             </div>
 
             {% if section.settings.show_promo_code %}
-              {% render 'cart-promo-code' %}
+              {% render 'cart-promo-code', debug_mode: section.settings.debug_mode %}
             {% endif %}
 
             <div class="cart-section__shipping-message">
@@ -157,6 +157,12 @@
       "id": "show_promo_code",
       "label": "Show promo code",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "debug_mode",
+      "label": "Debug mode",
+      "default": false
     }
   ],
   "presets": [

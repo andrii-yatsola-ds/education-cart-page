@@ -9,7 +9,7 @@
   }
 </script>
 
-<cart-promo-code class="cart-promo-code" data-section-id="{{ section.id }}" data-discount-codes="{{ cart.discount_applications | map: 'title' | join: ',' }}">
+<cart-promo-code class="cart-promo-code" data-section-id="{{ section.id }}" data-discount-codes="{{ cart.discount_applications | map: 'title' | join: ',' }}" data-debug-mode="{{ debug_mode }}">
   <div class="cart-promo-code__wrapper">
     <div class="cart-promo-code__input-wrapper js-promo-code-input-wrapper">
       <span class="cart-promo-code__icon">

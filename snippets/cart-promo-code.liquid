@@ -1,3 +1,13 @@
+<script>
+  window.promoCodeStrings = {
+    empty: '{{ 'custom.cart.promo_code.empty' | t }}',
+    already_applied: '{{ 'custom.cart.promo_code.already_applied' | t }}',
+    button: '{{ 'custom.cart.promo_code.button' | t }}',
+    loading: '{{ 'custom.cart.promo_code.loading' | t }}',
+    not_applicable: '{{ 'custom.cart.promo_code.not_applicable' | t }}',
+    error: '{{ 'custom.cart.promo_code.error' | t }}'
+  }
+</script>
 
 <cart-promo-code class="cart-promo-code" data-section-id="{{ section.id }}" data-discount-codes="{{ cart.discount_applications | map: 'title' | join: ',' }}">
   <div class="cart-promo-code__wrapper">

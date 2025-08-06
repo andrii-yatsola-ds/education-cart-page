@@ -28,6 +28,7 @@ if (!customElements.get(cartPromoCodeElement)) {
       this.promoCodeInputWrapper = this.querySelector('.js-promo-code-input-wrapper');
       this.promoCodeError = this.querySelector('.js-promo-code-error');
       this.removePromoCodeButtons = this.querySelectorAll('.js-promo-code-remove');
+      this.promoCodeStrings = window.promoCodeStrings;
       
       this.discountCodes = this.getDiscountCodes();
     }
@@ -40,34 +41,16 @@ if (!customElements.get(cartPromoCodeElement)) {
     }
 
     initEventListeners() {
-      this.addPromoCodeApplyListener();
-      this.addRemovePromoCodeListeners();
-      this.addEnterKeyListener();
-    }
-
-    addPromoCodeApplyListener() {
-      if (this.promoCodeApply) {
-        this.promoCodeApply.addEventListener('click', this.handlePromoCodeApply.bind(this));
-      }
-    }
-
-    addRemovePromoCodeListeners() {
-      if (this.removePromoCodeButtons) {
-        this.removePromoCodeButtons.forEach(button => {
-          button.addEventListener('click', this.handleRemovePromoCode.bind(this));
-        });
-      }
-    }
-
-    addEnterKeyListener() {
-      if (this.promoCodeInput) {
-        this.promoCodeInput.addEventListener('keypress', (event) => {
-          if (event.key === 'Enter') {
-            event.preventDefault();
-            this.handlePromoCodeApply();
-          }
-        });
-      }
+      this.promoCodeApply?.addEventListener('click', this.handlePromoCodeApply.bind(this));
+      this.removePromoCodeButtons?.forEach(button => {
+        button.addEventListener('click', this.handleRemovePromoCode.bind(this));
+      });
+      this.promoCodeInput?.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          this.handlePromoCodeApply();
+        }
+      });
     }
 
     handlePromoCodeApply() {
@@ -80,12 +63,12 @@ if (!customElements.get(cartPromoCodeElement)) {
 
     validatePromoCode(promoCode) {
       if (this.isEmptyPromoCode(promoCode)) {
-        this.showError('Please enter a promo code');
+        this.showError(this.promoCodeStrings.empty);
         return false;
       }
 
       if (this.isPromoCodeAlreadyApplied(promoCode)) {
-        this.showError('Promo code already applied');
+        this.showError(this.promoCodeStrings.already_applied);
         return false;
       }
 
@@ -147,7 +130,7 @@ if (!customElements.get(cartPromoCodeElement)) {
 
     setLoadingState(isLoading) {
       this.promoCodeApply.disabled = isLoading;
-      this.promoCodeApply.textContent = isLoading ? 'Applying...' : 'Apply';
+      this.promoCodeApply.textContent = isLoading ? this.promoCodeStrings.loading : this.promoCodeStrings.button;
     }
 
     sendPromoCodeRequest(formData) {
@@ -171,7 +154,7 @@ if (!customElements.get(cartPromoCodeElement)) {
             this.clearError();
             this.updateCartSectionMarkup();
           } else {
-            this.showError('This promo code is not applicable');
+            this.showError(this.promoCodeStrings.not_applicable);
             return;
           }
         }
@@ -180,8 +163,8 @@ if (!customElements.get(cartPromoCodeElement)) {
     }
 
     handleError(error) {
-      console.error('Error applying discount code:', error);
-      this.showError('Error applying promo code');
+      console.error(error);
+      this.showError(this.promoCodeStrings.error);
     }
 
     resetState() {
@@ -222,7 +205,7 @@ if (!customElements.get(cartPromoCodeElement)) {
           }
         })
         .catch(error => {
-          console.error('Error refreshing page:', error);
+          console.error(error);
         });
     }
 

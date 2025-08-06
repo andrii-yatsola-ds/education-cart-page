@@ -2,6 +2,7 @@
 {{ 'cart-line-item.css' | asset_url | stylesheet_tag }}
 {{ 'cart-line-item-quantity.css' | asset_url | stylesheet_tag }}  
 {{ 'cart-promo-code.css' | asset_url | stylesheet_tag }}
+
 <script src="{{ 'cart-section.js' | asset_url }}" defer></script>
 <script src="{{ 'cart-promo-code.js' | asset_url }}" defer></script>
 
@@ -97,7 +98,7 @@
           </div>
         {% endform %}
       {% else %}
-        <div class="cart-section__empty">cart is empty</div>
+        <div class="cart-section__empty">{{ 'custom.cart.empty' | t }}</div>
       {% endunless %}
     </div>
   </div>

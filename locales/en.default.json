@@ -537,7 +537,28 @@
   },
   "custom": {
     "cart": {
-      "title": "Your Cart"
+      "title": "Your Cart",
+      "empty": "Your cart is empty",
+      "summary": {
+        "title": "Order Summary",
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "total": "Total",
+        "promo_placeholder": "Add promo code",
+        "promo_button": "Apply",
+        "shipping_message": "Taxes & Shipping calculated at checkout",
+        "checkout": "Go to Checkout",
+      },
+      "promo_code": {
+        "title": "Promo Code",
+        "placeholder": "Add promo code",
+        "error": "Invalid promo code",
+        "button": "Apply",
+        "loading": "Applying...",
+        "empty": "Please enter a promo code",
+        "already_applied": "Promo code already applied",
+        "not_applicable": "This promo code is not applicable"        
+      }
     }
   }
 }

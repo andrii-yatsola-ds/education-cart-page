@@ -1,0 +1,35 @@
+<line-item class="line-item">
+  <div class="line-item__content-wrapper">
+    {% if line_item.image %}
+      <a href="{{ line_item.url }}" class="line-item__image-wrapper">
+        {% render 'responsive-image', image: line_item.image, alt: line_item.image.alt %}
+      </a>
+    {% endif %}
+
+    <div class="line-item__info">
+      <div class="line-item__title-wrapper">
+        <h2 class="line-item__title">
+          <a href="{{ line_item.url }}">{{ line_item.title }}</a>
+        </h2>
+        <a class="line-item__remove-button" href="{{ line_item.url_to_remove }}" data-ajax-cart-request-button>
+          {% render 'icons', icon: 'icon-trash' %}
+        </a>
+      </div>
+      <div class="line-item__details">
+        <div class="line-item__left">
+          {%- unless line_item.product.has_only_default_variant %}
+            <ul class="line-item__options">
+              {% for option in line_item.options_with_values -%}
+                <li class="line-item__option"><span>{{ option.name }}:</span> {{ option.value }}</li>
+              {%- endfor %}
+            </ul>
+          {% endunless %}
+          <div class="line-item__price">{{ line_item.final_line_price | money }}</div>
+        </div>
+        <div class="line-item__right">
+          {% render 'cart-line-item-quantity', line_item: line_item, index: index %}
+        </div>
+      </div>
+    </div>
+  </div>
+</line-item>

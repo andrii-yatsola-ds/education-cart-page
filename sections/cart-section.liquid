@@ -1,0 +1,177 @@
+{{ 'cart-section.css' | asset_url | stylesheet_tag }}
+{{ 'cart-line-item.css' | asset_url | stylesheet_tag }}
+{{ 'cart-line-item-quantity.css' | asset_url | stylesheet_tag }}  
+{{ 'cart-promo-code.css' | asset_url | stylesheet_tag }}
+
+<script src="{{ 'cart-section.js' | asset_url }}" defer></script>
+<script src="{{ 'cart-promo-code.js' | asset_url }}" defer></script>
+
+{% style %}
+  #shopify-section-{{ section.id }} .cart-section {
+    margin-top: {{ section.settings.margin_top_mobile }}px;
+    margin-bottom: {{ section.settings.margin_bottom_mobile }}px;
+  }
+
+  @media (min-width: 768px) {
+    #shopify-section-{{ section.id }} .cart-section {
+      margin-top: {{ section.settings.margin_top }}px;
+      margin-bottom: {{ section.settings.margin_bottom }}px;
+    }
+  }
+{% endstyle %}
+
+{% liquid
+  assign discount_codes = cart.discount_applications | map: 'title' | join: ','
+%}
+
+<cart-section class="cart-section" data-section-id="{{ section.id }}" data-debug-mode="{{ section.settings.debug_mode }}">
+  <div class="cart-section__container">
+
+    <h1 class="cart-section__title">{{ 'custom.cart.title' | t }}</h1>
+
+    <div class="cart-section__content-wrapper-outer js-content-wrapper" data-ajax-cart-section>
+      {% unless cart.empty? %}
+        {% form 'cart', cart, class: 'cart-section__content-wrapper-inner js-cart-form', data-discount-codes: discount_codes %}
+          <div class="cart-section__line-items">
+            {% for item in cart.items %}
+              {% assign line_item_index = forloop.index %}
+              <div class="cart-section__line-item">
+                {% render 'cart-line-item', line_item: item, index: line_item_index %}
+              </div>
+
+              {% unless forloop.last %}
+                <span class="cart-section__line-item-divider"></span>
+              {% endunless %}
+            {% endfor %}
+          </div>
+
+          <div class="cart-section__summary">
+            <h2 class="cart-section__summary-title">
+              {{ 'custom.cart.summary.title' | t }}
+            </h2>
+
+            <div class="cart-section__summary-content">
+              <div class="cart-section__summary-row">
+                <div class="cart-section__summary-item-label">
+                  {{ 'custom.cart.summary.subtotal' | t }}
+                </div>
+                <div class="cart-section__summary-item-value">
+                  {{ cart.original_total_price | money }}
+                </div>
+              </div>
+
+              {% if cart.total_discount > 0 %}
+                <div class="cart-section__summary-row">
+                  <div class="cart-section__summary-item-label">
+                    {{ 'custom.cart.summary.discount' | t }}
+                  </div>
+                  <div class="cart-section__summary-item-value">
+                    {{ cart.total_discount | money }}
+                  </div>
+                </div>
+              {% endif %}
+
+              <span class="cart-section__summary-divider"></span>
+
+              <div class="cart-section__summary-row">
+                <div class="cart-section__summary-item-label cart-section__summary-item-label--total">
+                  {{ 'custom.cart.summary.total' | t }}
+                </div>
+                <div class="cart-section__summary-item-value cart-section__summary-item-value--total">
+                  {{ cart.total_price | money }}
+                </div>
+              </div>
+            </div>
+
+            {% if section.settings.show_promo_code %}
+              {% render 'cart-promo-code', debug_mode: section.settings.debug_mode %}
+            {% endif %}
+
+            <div class="cart-section__shipping-message">
+              {{ 'custom.cart.summary.shipping_message' | t }}
+            </div>
+
+            <button type="submit" name="checkout" class="cart-section__checkout-button">
+              {{ 'custom.cart.summary.checkout' | t }}
+              {% render 'icons', icon: 'icon-arrow-right' %}
+            </button>
+          </div>
+        {% endform %}
+      {% else %}
+        <div class="cart-section__empty">{{ 'custom.cart.empty' | t }}</div>
+      {% endunless %}
+    </div>
+  </div>
+</cart-section>
+
+{% schema %}
+{
+  "name": "Cart Section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Spacing settings"
+    },
+    {
+      "type": "range",
+      "id": "margin_top",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "(Desktop) Margin top",
+      "default": 46
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "(Desktop) Margin bottom",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "margin_top_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "(Mobile) Margin top",
+      "default": 18
+    },
+    {
+      "type": "range",
+      "id": "margin_bottom_mobile",
+      "min": 0,
+      "max": 200,
+      "step": 2,
+      "unit": "px",
+      "label": "(Mobile) Margin bottom",
+      "default": 64
+    },
+    {
+      "type": "checkbox",
+      "id": "show_promo_code",
+      "label": "Show promo code",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "debug_mode",
+      "label": "Debug mode",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "Cart Section"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["cart"]
+  }
+}
+{% endschema %}

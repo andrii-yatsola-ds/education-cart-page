@@ -1,0 +1,140 @@
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<div class="subscription-plans-main relative">
+    <subscription-plans class="">
+        <span class="tooltip alert hidden">
+            Select an option
+        </span> 
+        {%- comment -%}Onetime Purchase{%- endcomment -%}
+        {%- unless product.requires_selling_plan -%}
+            <div class="subscription-plans-row subscription-plans-row-one-time pb-5 ">
+                <input id="subscription-one-time" type="radio" class="radio--btn" name="subscription-{{product.id}}" value="onetime" data-price="{{current_variant.price | money}}" checked>
+                <label for="subscription-one-time" class="flex flex-1 items-center">
+                    <span class="sub_label_text">Onetime Purchase </span>
+                    <div class="ml-auto gap-1 md:gap-2 flex items-center justify-end"><span class="original_price">{{current_variant.price | money}}</span></div>
+                </label>
+            </div>
+        {%- endunless -%}
+        {%- comment -%}Subscription plans{%- endcomment -%}
+        {%- for group in product.selling_plan_groups -%}
+            {%- assign downcase_group_name = group.name | downcase -%}
+            {%- if downcase_group_name contains 'subscribe' -%}
+            {%- liquid
+                assign selected_selling_plan = current_variant.selling_plan_allocations.first.selling_plan
+                assign price_adjustment = selected_selling_plan.price_adjustments.first
+                assign group = product.selling_plan_groups | where: 'id', selected_selling_plan.group_id | first
+                case price_adjustment.value_type	
+                when 'percentage'	
+                    assign discount_percent = price_adjustment.value | round
+                    assign discount_absolute = current_variant.price | times: price_adjustment.value | divided_by: 100.0	
+                when 'fixed_amount'	
+                    assign discount_percent = price_adjustment.value | times: 1.0 | divided_by: current_variant.price | times: 100.0 | round
+                    assign discount_absolute = price_adjustment.value	
+                when 'price'	
+                    assign discount_percent = current_variant.price | minus: price_adjustment.value | times: 1.0 | divided_by: current_variant.price | times: 100.0	| round
+                    assign discount_absolute = current_variant.price | minus: price_adjustment.value	
+                endcase	
+                if discount_percent == 0	
+                assign discount_text = ''	
+                elsif discount_format == 'percent' or discount_format == blank	
+                assign discount_text = discount_percent | append: '%'	
+                else	
+                assign discount_text = discount_absolute | money	
+                endif	
+            -%}
+            <div class="subscription-plans-row subscription-plans-option">
+                <input id="subscription-group-{{forloop.index}}" 
+                    type="radio" 
+                    class="radio--btn"
+                    name="subscription-{{product.id}}" 
+                    value="subscribe"
+                    data-price="{{  current_variant.price | minus: discount_absolute | money }}"
+                    data-price_adjustment='{{ price_adjustment | json }}'>
+
+                <label for="subscription-group-{{forloop.index}}" class="flex flex-1 items-center">
+                    <span class="sub_label_text">Subscribe {% if discount_text != '' %} And Save </span>  
+                        {{ discount_text }} 
+                    <div class="ml-auto gap-1 md:gap-2 flex items-center justify-end">
+                        <span class="original_price line-through">
+                            {{current_variant.price | money}}
+                        </span>
+                        <span class="discounted_price">
+                            {{ current_variant.price | minus: discount_absolute | money }}
+                        </span>
+                    </div>
+                    {%- else -%}
+                        </span> 
+                    {%- endif -%}
+                </label>
+                <div class="subscription-plans_price">
+                    <!-- <div class="label_select">Delivery Frequency</div> -->
+                    <select class="subscription-selling-plan">
+                        {% for plan in group.selling_plans %}
+                        {% liquid 
+                            assign selected = false
+                            if forloop.first
+                            assign selected = true
+                            endif
+                        %}
+                        <option value="{{ plan.id }}" {% if selected %}selected{% endif %}>
+                            Delivery {{ plan.options[0].value | downcase }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {%- endif -%}
+        {%- endfor -%}
+        <input type="hidden" name="selling_plan" value="">
+    </subscription-plans>
+</div>
+
+<script>
+    if (!customElements.get('subscription-plans')) {
+        class SubscriptionPlans extends HTMLElement {
+            constructor() {
+                super();
+                this.addEventListener('click', function(){document.querySelector('body').classList.remove('select-option')})
+                this.selling_plan_el = this.querySelector('[name="selling_plan"]');
+                this.plan_el = this.querySelector('.subscription-selling-plan');
+                if (!this.selling_plan_el) {
+                    return;
+                }
+
+                this.plan_el.addEventListener('change', this.onSubscriptionChange.bind(this));
+                this.querySelectorAll('[name^="subscription-"]').forEach(function(radio){
+                    if (radio.value == 'subscribe' && radio.checked ) {
+                        this.setPlan(this.plan_el.value);
+                    }
+                    radio.addEventListener('change', this.onPlanChange.bind(this));
+                }.bind(this));
+            }
+            onSubscriptionChange(event) {
+                let select = event.currentTarget;
+                this.setPlan(select.value);
+                this.querySelector('[value="subscribe"]').checked = true;
+            }
+            onPlanChange(event){
+                let radio = event.currentTarget;
+                let current_price = radio.getAttribute('data-price');
+                console.log(current_price)
+                let btn = document.querySelector('.product-form__submit span');
+                btn.innerHTML = current_price;
+                let plan_id = '';
+                if (radio.value == 'subscribe' && radio.checked ) {
+                    plan_id = this.plan_el.value
+                }
+                this.setPlan(plan_id);
+            }
+            setPlan(id) {
+                if (!this.selling_plan_el) {
+                    return;
+                }
+                this.selling_plan_el.value = id;
+            }
+        }
+
+        customElements.define('subscription-plans', SubscriptionPlans);
+        
+    }
+</script>

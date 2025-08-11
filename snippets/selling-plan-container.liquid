@@ -1,0 +1,79 @@
+{{ 'selling-plan.css' | asset_url  | stylesheet_tag }}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<selling-plan class="selling-plan">
+  <fieldset class="selling-plan__fieldset">
+    <ul class="selling-plan__list">
+      {%- unless product.requires_selling_plan -%}
+        <li class="selling-plan__list-item">
+          <input id="subscription-one-time" type="radio" class="selling-plan__radio js-selling-plan-radio" name="subscription-{{ product.id }}" value="onetime" checked>
+          <label for="subscription-one-time" class="selling-plan__label">
+              <span class="selling-plan__label-text">{{ 'custom.selling_plan.onetime_purchase' | t }}</span>
+              <span class="selling-plan__label-price">{{ current_variant.price | money }}</span>
+          </label>
+        </li>
+      {%- endunless -%}
+
+      {%- if product.selling_plan_groups.size > 0 -%}
+        {% for plan_group in product.selling_plan_groups %}
+          {%- assign downcase_group_name = plan_group.name | downcase -%}
+          {%- if downcase_group_name contains 'subscribe' -%}
+            {%- liquid
+              assign selected_selling_plan = current_variant.selling_plan_allocations.first.selling_plan
+              assign price_adjustment = selected_selling_plan.price_adjustments.first
+              assign plan_group = product.selling_plan_groups | where: 'id', selected_selling_plan.group_id | first
+
+              case price_adjustment.value_type	
+                when 'percentage'	
+                  assign discount_absolute = current_variant.price | times: price_adjustment.value | divided_by: 100.0	
+                when 'fixed_amount'	
+                  assign discount_absolute = price_adjustment.value	
+                when 'price'	
+                  assign discount_absolute = current_variant.price | minus: price_adjustment.value	
+              endcase	
+            -%}
+
+            <li class="selling-plan__list-item">
+              <input 
+                id="subscription-{{ plan_group.id }}-{{ forloop.index }}" 
+                type="radio" class="selling-plan__radio js-selling-plan-radio" 
+                name="subscription-{{ product.id }}" 
+                value="subscribe" 
+                {%- unless product.requires_selling_plan -%}checked{%- endunless -%}
+              >
+              <label for="subscription-{{ plan_group.id }}-{{ forloop.index }}" class="selling-plan__label">
+                <span class="selling-plan__label-text">{{ plan_group.name }}</span>
+                <span class="selling-plan__label-price">
+                  <s>{{ current_variant.price | money }}</s>
+                  <span class="selling-plan__label-discount-price js-selling-plan-discount-price">{{ current_variant.price | minus: discount_absolute | money | prepend: ' ' }}</span>
+                </span>
+              </label>
+            
+              <select name="selling_plan" id="selling_plan_{{ plan_group.id }}" class="selling-plan__select js-selling-plan-select">
+                {% for plan in plan_group.selling_plans %}
+                  {%- liquid
+                    assign price_adjustment = plan.price_adjustments.first
+      
+                    case price_adjustment.value_type	
+                      when 'percentage'	
+                        assign discount_absolute = current_variant.price | times: price_adjustment.value | divided_by: 100.0	
+                      when 'fixed_amount'	
+                        assign discount_absolute = price_adjustment.value	
+                      when 'price'	
+                        assign discount_absolute = current_variant.price | minus: price_adjustment.value	
+                    endcase	
+                  -%}
+                  <option value="{{ plan.id }}" data-price="{{ current_variant.price | minus: discount_absolute | money }}">{{ plan.name }}</option>
+                {% endfor %}
+              </select>
+            </li>
+          {%- endif -%}
+        {% endfor %}
+      {%- endif -%}
+    </ul>
+    <input type="hidden" class="selling-plan__input js-selling-plan" name="selling_plan" value="">
+  </fieldset>
+</selling-plan>
+
+<script src="{{ 'selling-plan.js' | asset_url }}" defer></script>

@@ -538,6 +538,10 @@
   "custom": {
     "cart": {
       "title": "Your Cart"
+    },
+    "selling_plan": {
+      "onetime_purchase": "Onetime Purchase",
+      "subscribe": "Subscribe"
     }
   }
 }

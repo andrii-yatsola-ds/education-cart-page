@@ -5,6 +5,8 @@
 {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
 {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 
+{{ 'cart-subscription-item.css' | asset_url | stylesheet_tag }}
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -79,6 +81,20 @@
 
               <tbody>
                 {%- for item in cart.items -%}
+                  {% liquid
+                    assign has_selling_plan = false
+                    if item.selling_plan_allocation != null
+                      assign has_selling_plan = true
+                    else
+                      for plan_group in item.product.selling_plan_groups
+                        assign downcase_group_name = plan_group.name | downcase
+                        if downcase_group_name contains 'subscribe'
+                          assign has_selling_plan = true
+                        endif
+                      endfor
+                    endif
+                  %}
+
                   <tr class="cart-item" id="CartItem-{{ item.index | plus: 1 }}">
                     <td class="cart-item__media">
                       {% if item.image %}
@@ -127,7 +143,6 @@
 
                       {%- if item.product.has_only_default_variant == false
                         or item.properties.size != 0
-                        or item.selling_plan_allocation != null
                       -%}
                         <dl>
                           {%- if item.product.has_only_default_variant == false -%}
@@ -157,8 +172,6 @@
                             {%- endif -%}
                           {%- endfor -%}
                         </dl>
-
-                        <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
                       {%- endif -%}
 
                       <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
@@ -169,6 +182,10 @@
                           </li>
                         {%- endfor -%}
                       </ul>
+
+                      {% if has_selling_plan %}
+                        {% render 'cart-subscription-item', line_item: item, index: forloop.index %}
+                      {% endif %}
                     </td>
 
                     <td class="cart-item__totals right medium-hide large-up-hide">
@@ -450,6 +467,8 @@
     </form>
   </div>
 </cart-items>
+
+<script src="{{ 'cart-subscription-item.js' | asset_url }}" defer></script>
 
 {% schema %}
 {

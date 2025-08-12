@@ -34,11 +34,27 @@ class CartItems extends HTMLElement {
       }
       return this.onCartUpdate();
     });
+
+    this.subscriptionItemChangeUnsubscriber = subscribe('cart-subscription-item-change:start', (event) => {
+      this.enableLoading(event.line);
+    });
+
+    this.subscriptionItemChangeEndUnsubscriber = subscribe('cart-subscription-item-change:end', (event) => {
+      this.disableLoading(event.line);
+    });
   }
 
   disconnectedCallback() {
     if (this.cartUpdateUnsubscriber) {
       this.cartUpdateUnsubscriber();
+    }
+
+    if (this.subscriptionItemChangeUnsubscriber) {
+      this.subscriptionItemChangeUnsubscriber();
+    }
+
+    if (this.subscriptionItemChangeEndUnsubscriber) {
+      this.subscriptionItemChangeEndUnsubscriber();
     }
   }
 
@@ -49,6 +65,10 @@ class CartItems extends HTMLElement {
   }
 
   setValidity(event, index, message) {
+    if (event.target.classList.contains('js-selling-plan')) {
+      return;
+    }
+
     event.target.setCustomValidity(message);
     event.target.reportValidity();
     this.resetQuantityInput(index);

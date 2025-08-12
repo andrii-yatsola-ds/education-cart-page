@@ -1,0 +1,9 @@
+.cart-subscription-item{
+  display: flex;
+}
+
+.cart-subscription-item select{
+  margin: 10px 0 0;
+  padding: 10px 5px;
+  cursor: pointer;
+}
